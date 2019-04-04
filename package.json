@@ -1,0 +1,30 @@
+{
+  "name": "tax-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "nodemon main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cestbon258/tax-calculation-system.git"
+  },
+  "keywords": [
+    "tax",
+    "tax",
+    "calculation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cestbon258/tax-calculation-system/issues"
+  },
+  "homepage": "https://github.com/cestbon258/tax-calculation-system#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.10"
+  }
+}
