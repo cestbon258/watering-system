@@ -15,7 +15,7 @@
     </div>
 
     <div class="row">
-        <div class="col s12 m4">
+        <div class="col s12 m4" data-aos="fade-down-right">
             <div class="card hoverable">
                 <div class="card-image">
                     <img src="carousel_img/6.jpg">
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="col s12 m4">
+        <div class="col s12 m4" data-aos="fade-right" data-aos-offset="300" data-aos-easing="ease-in-sine">
             <div class="card hoverable">
                 <div class="card-image">
                     <img src="carousel_img/2.png">
@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <div class="col s12 m4">
+        <div class="col s12 m4" data-aos="fade-left" data-aos-offset="300" data-aos-easing="ease-in-sine">
             <div class="card hoverable">
                 <div class="card-image">
                     <img src="carousel_img/1.png">
@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000">
         <div class="col s12">
             <table class="responsive-table centered ">
                 <div class="card blue-grey darken-1">
@@ -163,7 +163,6 @@
         $(".hoverable").click(function(){
             $(this).parent().parent().find("div").removeClass("overflow-ellipsis");
         })
-        
     </script>
 </body>
 </html>
