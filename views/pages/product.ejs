@@ -1,66 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <% include ../partials/head %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <body>
     <% include ../partials/nav %>
     <div class="container">
         <div class="carousel">
-            <a class="carousel-item" href="#one!"><img src="https://lorempixel.com/250/250/nature/1"></a>
-            <a class="carousel-item" href="#two!"><img src="https://lorempixel.com/250/250/nature/2"></a>
-            <a class="carousel-item" href="#three!"><img src="https://lorempixel.com/250/250/nature/3"></a>
-            <a class="carousel-item" href="#four!"><img src="https://lorempixel.com/250/250/nature/4"></a>
-            <a class="carousel-item" href="#five!"><img src="https://lorempixel.com/250/250/nature/5"></a>
+            <a class="carousel-item" href="#one!"><img src="carousel_img/10.jpg"></a>
+            <a class="carousel-item" href="#two!"><img src="carousel_img/9.jpg"></a>
+            <a class="carousel-item" href="#three!"><img src="carousel_img/6.jpg"></a>
+            <a class="carousel-item" href="#four!"><img src="carousel_img/5.jpg"></a>
+            <a class="carousel-item" href="#five!"><img src="carousel_img/4.jpg"></a>
         </div>
     </div>
 
     <div class="row">
         <div class="col s12 m4">
-            <div class="card">
-            <div class="card-image">
-                <img src="https://lorempixel.com/250/250/nature/5">
-                <span class="card-title">Card Title</span>
-                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-            </div>
-            <div class="card-content">
-                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-            </div>
-            </div>
-        </div>
-        <div class="col s12 m4">
-            <div class="card">
-            <div class="card-image">
-                <img src="https://lorempixel.com/250/250/nature/5">
-                <span class="card-title">Card Title</span>
-                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-            </div>
-            <div class="card-content">
-                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-            </div>
+            <div class="card hoverable">
+                <div class="card-image">
+                    <img src="carousel_img/6.jpg">
+                    <span class="card-title" style="color: black;">Arduino UNO R3</span>
+                    <!-- <a class="btn-floating halfway-fab waves-effect waves-light red abc" ><i class="material-icons">add</i></a> -->
+                </div>
+                <div class="card-content overflow-ellipsis">
+                    The Arduino Uno R3 is a microcontroller board based on a removable, dual-inline-package (DIP) ATmega328 AVR microcontroller. It has 20 digital input/output pins (of which 6 can be used as PWM outputs and 6 can be used as analog inputs). Programs can be loaded on to it from the easy-to-use Arduino computer program. The Arduino has an extensive support community, which makes it a very easy way to get started working with embedded electronics. The R3 is the third, and latest, revision of the Arduino Uno.
+                </div>
             </div>
         </div>
         <div class="col s12 m4">
-            <div class="card">
-            <div class="card-image">
-                <img src="https://lorempixel.com/250/250/nature/5">
-                <span class="card-title">Card Title</span>
-                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+            <div class="card hoverable">
+                <div class="card-image">
+                    <img src="carousel_img/2.png">
+                    <span class="card-title" style="color: black;">Soil moisture sensor</span>
+                    <!-- <a class="btn-floating halfway-fab waves-effect waves-light red abc" ><i class="material-icons">add</i></a> -->
+                </div>
+                <div class="card-content overflow-ellipsis">
+                        Soil moisture sensors measure the volumetric water content in soil.[1] Since the direct gravimetric measurement of free soil moisture requires removing, drying, and weighting of a sample, soil moisture sensors measure the volumetric water content indirectly by using some other property of the soil, such as electrical resistance, dielectric constant, or interaction with neutrons, as a proxy for the moisture content.
+                        <br>
+                        The relation between the measured property and soil moisture must be calibrated and may vary depending on environmental factors such as soil type, temperature, or electric conductivity. Reflected microwave radiation is affected by the soil moisture and is used for remote sensing in hydrology and agriculture. Portable probe instruments can be used by farmers or gardeners.
+                </div>
             </div>
-            <div class="card-content">
-                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-            </div>
+        </div>
+        <div class="col s12 m4">
+            <div class="card hoverable">
+                <div class="card-image">
+                    <img src="carousel_img/1.png">
+                    <span class="card-title" style="color: black;">AM2320 temperature and humidity sensor</span>
+                    <!-- <a class="btn-floating halfway-fab waves-effect waves-light red abc" ><i class="material-icons">add</i></a> -->
+                </div>
+                <div class="card-content overflow-ellipsis">
+                        Temperature and humidity combined sensor AM2320 digital temperature and humidity sensor is a digital signal output has been calibrated. Using special temperature and humidity acquisition technology, ensure that the product has a very high reliability and excellent long-term stability. Sensor consists of a capacitive moisture element and an integrated high-precision temperature measurement devices, and connected with a high-performance microprocessor.
+                </div>
             </div>
         </div>
     </div>
-                    
-        
+
+    <div class="row">
+        <div class="col s12">
+            <table class="responsive-table centered ">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">Basic components</span>
+                        <thead>
+                            <tr>
+                                <th>Name / Model</th>
+                                <th>Amount</th>
+                                <th>Remark</th>
+                            </tr>
+                        </thead>
+                    </div>
+                    <div class="card-action">
+                            <tbody>
+                                <tr>
+                                    <td>Arduino UNO</td>
+                                    <td>x1</td>
+                                    <td>NA</td>
+                                </tr>
+                                <tr>
+                                    <td>LCD display with I2C communication</td>
+                                    <td>x1</td>
+                                    <td>(optional)</td>
+                                </tr>
+                                <tr>
+                                    <td>RTC with I2C communication</td>
+                                    <td>x1</td>
+                                    <td>(optional)</td>
+                                </tr>
+                                <tr>
+                                    <td>Soil moisture sensor (Hygrometer)</td>
+                                    <td>x1</td>
+                                    <td>NA</td>
+                                </tr>
+                                <tr>
+                                    <td>Humidity & Temperature sensor AM2320</td>
+                                    <td>x1</td>
+                                    <td>A combined sensor</td>
+                                </tr>
+                                <tr>
+                                    <td>Water Pump</td>
+                                    <td>x1</td>
+                                    <td>NA</td>
+                                </tr>
+                                <tr>
+                                    <td>Relay module 5V</td>
+                                    <td>x1</td>
+                                    <td>NA</td>
+                                </tr>
+                                <tr>
+                                    <td>Breadboard</td>
+                                    <td>x1</td>
+                                    <td>NA</td>
+                                </tr>
+                            </tbody>
+                    </div>
+                </div>
+            </table>
+        </div>
+    </div>
 
 
     <% include ../partials/footer %>
 
     <style> 
-        .indicators{
+        /* .indicators{
             background-color: grey;
+        } */
+        div.overflow-ellipsis {
+            width: 100%; 
+            height: 9em;
+            line-height: 1.5em;
+            display: block; /* Fallback for non-webkit */
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
+
+        .hoverable {
+            cursor: pointer;
+        }
+            
     </style>
 
     <script>
@@ -71,13 +151,18 @@
 
         // Or with jQuery
         $(document).ready(function(){
+
             $('.carousel').carousel();
             autoplay();
             function autoplay() {
                 $('.carousel').carousel('next');
-                setTimeout(autoplay, 4500);
+                setTimeout(autoplay, 3600);
             }
         });
+
+        $(".hoverable").click(function(){
+            $(this).parent().parent().find("div").removeClass("overflow-ellipsis");
+        })
         
     </script>
 </body>

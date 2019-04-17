@@ -4,16 +4,29 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <body>
     <% include ../partials/nav %>
+    <div class="container right-align"><div id="MyClockDisplay" class="clock" onload="showTime()"></div></div><br>
 
-
-
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s3"><a href="#test1">Test 1</a></li>
+                <li class="tab col s3"><a href="#test2">Test 2</a></li>
+                <li class="tab col s3"><a href="#test3">Test 3</a></li>
+                <li class="tab col s3"><a href="#test4">Test 4</a></li>
+            </ul>
+        </div>
+        <div id="test1" class="col s12">
+             <!--  chart  -->
+            <div id="chart"></div>
+        </div>
+        <div id="test2" class="col s12">Test 2</div>
+        <div id="test3" class="col s12">Test 3</div>
+        <div id="test4" class="col s12">Test 4</div>
+    </div>
     <div>
-            <p><%= results[0].password %></p>
+        <p><%= results[0].password %></p>
     </div>
 
-
-    <!--  chart  -->
-    <div id="chart"></div>
 
 
     <% include ../partials/footer %>
@@ -23,24 +36,69 @@
             max-width: 650px;
             margin: 35px auto;
         }
+
+        .clock {
+            /* position: absolute; */
+            /* right: 6%; */
+            /* transform: translateX(-50%) translateY(-50%); */
+            color: rgb(8, 8, 8);
+            font-size: 16px;
+            font-size: 4vw;
+            letter-spacing: 2px;
+        }
     </style>
     <script>
-        var options = {
-            chart: {
-            type: 'bar'
-            },
-            series: [{
-            name: 'sales',
-            data: [30,40,45,50,49,60,70,91,125]
-            }],
-            xaxis: {
-            categories: [1991,1992,1993,1994,1995,1996,1997, 1998,1999]
+         $(document).ready(function(){
+            var options = {
+                chart: {
+                type: 'bar'
+                },
+                series: [{
+                name: 'sales',
+                data: [30,40,45,50,49,60,70,91,125]
+                }],
+                xaxis: {
+                categories: [1991,1992,1993,1994,1995,1996,1997, 1998,1999]
+                }
             }
-        }
 
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
 
-        chart.render();
+            chart.render();
+
+
+            function showTime(){
+                var date = new Date();
+                var h = date.getHours(); // 0 - 23
+                var m = date.getMinutes(); // 0 - 59
+                var s = date.getSeconds(); // 0 - 59
+                var session = "AM";
+                
+                if(h == 0){
+                    h = 12;
+                }
+                
+                if(h > 12){
+                    h = h - 12;
+                    session = "PM";
+                }
+                
+                h = (h < 10) ? "0" + h : h;
+                m = (m < 10) ? "0" + m : m;
+                s = (s < 10) ? "0" + s : s;
+                
+                var time = h + ":" + m + ":" + s + " " + session;
+                document.getElementById("MyClockDisplay").innerText = time;
+                document.getElementById("MyClockDisplay").textContent = time;
+                
+                setTimeout(showTime, 1000);
+                
+            }
+
+            showTime();
+
+            $('.tabs').tabs();
+        });
     </script>
 </body>
 </html>
