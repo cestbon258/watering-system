@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include ../partials/head %>
+
+<body>
+    <% include ../partials/nav %>
+
+    <div class="container">
+        <table id="faqs" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Questions</th>
+                    <th>Solutions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Where can I code the program?</td>
+                    <td>We suggest you use the offical one that installs directly everything you need to use the <a href="https://www.arduino.cc/en/main/software" target="_blank">Arduino Software (IDE)</a>, including the drivers. Start coding online with the <a href="https://create.arduino.cc/editor" target="_blank">Arduino web editor</a> save your sketches in the cloud, and always have the most up-to-date version of the IDE, including all the contributed libraries and support for new Arduino boards. There are more options for you to choose such as: <a href="http://fritzing.org/learning/" target="_blank">Fritzaing</a>, <a href="https://www.circuito.io/app?components=512,11021" target="_blank">circuito.io</a> etc.</td>
+                </tr>
+                <tr>
+                    <td>What can do with the product?</td>
+                    <td>The system kit provides a real-time plant monitoring with multiple components available. The kit includes a moisture sensor, water pump, pH sensor and temperature sensor. When the moisture sensor detects the humidity of soil is lower, the Arduino circuit board will send a command to turn on the pump and suck water to the plants. Meanwhile, the humidity of soli goes to a high level, the pump will be closed then. There is an option to add a RTC to control watering timing and a LED screen to display the status of soil moisture and more. The temperature sensor used to determine the watering timing, to illustrate, the temperature in summer will be much higher, so that the timing can be a little bit longer than other seasons. The data recorded from sensors will be expected to store into a database, afterwards, a web or mobile application will be developed to retrieve all records. Therefore, the user will be able to know the latest information about the plants through any network connected devices in a quicker way than previous.</td>
+                </tr>
+                <tr>
+                    <td>Can I customize the product myself?</td>
+                    <td>With the Arduino board, you can do any customizations, i.g.: adding a LED screen to display the temperature and humidity. Basically, you can add more features you want with Arduino components.</td>
+                </tr>
+                <tr>
+                    <td>How to use the product / system ?</td>
+                    <td>Smart watering system with Arduino provides real-time montoring to your plants. You can use it to monitor plants at farm, garden or home.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <% include ../partials/footer %>
+
+    <!-- Datatable CDN -->
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+
+       
+
+       $(document).ready(function() {
+
+            $('#faqs').dataTable( {
+                "ordering": false,
+                "columnDefs": [ 
+                    {
+                        targets: [0, 1],
+                        orderable: false
+                    } 
+                ],
+                'info': false,
+                'responsive': true,
+                "scrollX": true,
+                "lengthChange": false,
+                "paging": false,
+                scrollY: '50vh',
+                scrollCollapse: true,
+
+                language: {
+                    searchPlaceholder: "Faster get anwsers here"
+                },
+                mark: true,
+            } )
+            // .columns.adjust();
+            
+            $.extend(true, $.fn.dataTable.defaults, {
+                mark: true
+            });
+
+        } );
+
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/g/mark.js(jquery.mark.min.js),datatables.mark.js"></script>
+    <script src="https://cdn.jsdelivr.net/g/mark.js(jquery.mark.min.js)"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.13/features/mark.js/datatables.mark.js"></script>
+    <link href="https://cdn.jsdelivr.net/datatables.mark.js/2.0.0/datatables.mark.min.css">
+    <link href="https://cdn.datatables.net/plug-ins/1.10.13/features/mark.js/datatables.mark.min.css">
+</body>
+</html>
