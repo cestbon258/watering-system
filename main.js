@@ -35,7 +35,7 @@ app.get('/user-center', function (req, res, next) {
 
 app.get('/poll-chart-data', function (req, res, next) {
 	try {
-		connection.query('SELECT mois, created_at FROM data WHERE mois IS NOT NULL LIMIT 5 ', function (error, results, fields) {
+		connection.query('SELECT mois, created_at FROM data WHERE mois IS NOT NULL LIMIT 1 ', function (error, results, fields) {
 			// if (error) throw error;
 			// console.log('The solution is: ', results);
 			res.send({ success: true,  results: results});

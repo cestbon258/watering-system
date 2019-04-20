@@ -17,8 +17,8 @@
                 <li class="tab col s3"><a href="#test4">CHARTS</a></li>
             </ul>
         </div>
-        <div id="test1" class="col s12">
-             <!--  chart  -->
+        <div id="test1" class="col s12">           
+            <!--  chart  -->
             <div id="chart"></div>
         </div>
         <div id="test2" class="col s12">Test 2</div>
@@ -53,6 +53,12 @@
             //vars
             var moisData = 0;
 
+            // tabs
+            $('.tabs').tabs();
+
+            // hide chats
+            $('#chart').hide();
+
             // chart
             var options = {
                 chart: {
@@ -60,19 +66,22 @@
                 },
                 series: [{
                     name: 'Humidity',
-                    data: [30,40,45,50,49,60]
+                    data: [0]
                 }],
                 xaxis: {
-                    // categories: [1991, 1992, 1993, 1994, 1995, 1996],
-                    categories: [],
+                    labels: {
+                        show: false,
+                    }
+                    // categories: [],
                     // labels: {
-                    //     show: false
+                    //     formatter: function (value, timestamp) {
+                    //         return new Date().getSeconds(); // The formatter function overrides format property
+                    //     },
                     // }
-                }
+                },
+                // labels: ['Apples', 'Oranges', 'Berries', 'Grapes', 'Banana', "abc"],
             }
-
             var chart = new ApexCharts(document.querySelector("#chart"), options);
-
             chart.render();
 
             // clock
@@ -103,39 +112,40 @@
                 setTimeout(showTime, 1000);
                 
             }
-
             showTime();
-            // tabs
-            $('.tabs').tabs();
 
-            var dataArray = [];
-            function pollData() {
+            var moisArray = [];
+            function pollData(firstTime = false) {
                 $.ajax({
                     url:'/poll-chart-data',
                     type:'get',
                     // dataType : "json",
                     success:function(result){
+                        if (firstTime) {
+                            $('#chart').show();
+                        }
                         var data = result;
                         console.log(data['results']);
                         for (var key in data['results']) {
-                            moisData = data['results'][key]['mois'];
-                            dataArray.push(moisData);
+                            moisData = data['results'][0]['mois'];
+                            moisArray.push(moisData);
                         } 
-                        console.log(dataArray);
-                        chart.updateSeries([{
-                            data: dataArray
+                        console.log(moisArray);
+                        // chart.updateSeries([{
+                        //     data: moisArray
+                        // }])
+                        chart.appendData([{
+                            data: moisArray
                         }])
-                       
                         console.log("polling ...");
                     },
                     error:function(err){
                         console.log(err);
                     }
                 });
-                dataArray = []
+                moisArray = []
             }
-
-            // pollData();
+            pollData(true);
             setInterval(function(){ pollData(); }, 3000);
 
         });
