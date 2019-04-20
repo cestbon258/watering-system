@@ -21,8 +21,12 @@
             <!--  chart  -->
             <div id="chart"></div>
         </div>
-        <div id="test2" class="col s12">Test 2</div>
-        <div id="test3" class="col s12">Test 3</div>
+        <div id="test2" class="col s12">
+            <div id="humidityChart"></div>
+        </div>
+        <div id="test3" class="col s12">
+            <div id="temperatureChart"></div>
+        </div>
         <div id="test4" class="col s12">Test 4</div>
     </div>
 
@@ -58,14 +62,15 @@
 
             // hide chats
             $('#chart').hide();
+            $('#humidityChart').hide();
 
-            // chart
+            // moisture chart
             var options = {
                 chart: {
                     type: 'line'
                 },
                 series: [{
-                    name: 'Humidity',
+                    name: 'Moisture',
                     data: [0]
                 }],
                 xaxis: {
@@ -83,6 +88,44 @@
             }
             var chart = new ApexCharts(document.querySelector("#chart"), options);
             chart.render();
+
+            // humidity chart
+            var humidityOptions = {
+                chart: {
+                    type: 'area'
+                },
+                series: [{
+                    name: 'Humidity',
+                    data: [0]
+                }],
+                xaxis: {
+                    labels: {
+                        show: false,
+                    }
+                },
+            }
+            var humidityChart = new ApexCharts(document.querySelector("#humidityChart"), humidityOptions);
+            humidityChart.render();
+
+             // temperature chart
+             var temperatureOptions = {
+                chart: {
+                    type: 'area'
+                },
+                series: [{
+                    name: 'Temperature',
+                    data: [0]
+                }],
+                xaxis: {
+                    labels: {
+                        show: false,
+                    }
+                },
+            }
+            var temperatureChart = new ApexCharts(document.querySelector("#temperatureChart"), temperatureOptions);
+            temperatureChart.render();
+
+
 
             // clock
             function showTime(){
@@ -115,9 +158,9 @@
             showTime();
 
             var moisArray = [];
-            function pollData(firstTime = false) {
+            function pollMoistureData(firstTime = false) {
                 $.ajax({
-                    url:'/poll-chart-data',
+                    url:'/poll-moisture-data',
                     type:'get',
                     // dataType : "json",
                     success:function(result){
@@ -145,8 +188,77 @@
                 });
                 moisArray = []
             }
-            pollData(true);
-            setInterval(function(){ pollData(); }, 3000);
+            pollMoistureData(true);
+            setInterval(function(){ pollMoistureData(); }, 3000);
+
+
+            var humiArray = [];
+            function pollHumidityData(firstTime = false) {
+                $.ajax({
+                    url:'/poll-humidity-data',
+                    type:'get',
+                    // dataType : "json",
+                    success:function(result){
+                        if (firstTime) {
+                            $('#humidityChart').show();
+                        }
+                        var data = result;
+                        console.log(data['results']);
+                        for (var key in data['results']) {
+                            humiData = data['results'][0]['humi'];
+                            humiArray.push(humiData);
+                        } 
+                        console.log(humiArray);
+     
+                        humidityChart.appendData([{
+                            data: humiArray
+                        }])
+                        console.log("humidity polling ...");
+                    },
+                    error:function(err){
+                        console.log(err);
+                    }
+                });
+                humiArray = []
+            }
+            pollHumidityData(true);
+            setInterval(function(){ pollHumidityData(); }, 4000);
+
+
+            var tempArray = [];
+            function pollTemperatureData(firstTime = false) {
+                $.ajax({
+                    url:'/poll-temperature-data',
+                    type:'get',
+                    // dataType : "json",
+                    success:function(result){
+                        if (firstTime) {
+                            $('#temperatureChart').show();
+                        }
+                        var data = result;
+                        console.log(data['results']);
+                        for (var key in data['results']) {
+                            tempData = data['results'][0]['temp'];
+                            tempArray.push(tempData);
+                        } 
+                        console.log(tempArray);
+     
+                        temperatureChart.appendData([{
+                            data: tempArray
+                        }])
+                        console.log("temperature polling ...");
+                    },
+                    error:function(err){
+                        console.log(err);
+                    }
+                });
+                tempArray = []
+            }
+            pollTemperatureData(true);
+            setInterval(function(){ pollTemperatureData(); }, 5000);
+
+
+
 
         });
     </script>
