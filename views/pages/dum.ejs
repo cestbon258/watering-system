@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <% include ../partials/head %>
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 
 <body>
     <% include ../partials/nav %>
@@ -11,15 +11,14 @@
     <div class="row">
         <div class="col s12">
             <ul class="tabs">
-                <li class="tab col s3"><a href="#test1">MOISTURE</a></li>
-                <li class="tab col s3"><a href="#test2">HUMIDITY</a></li>
-                <li class="tab col s3"><a href="#test3">TEMPERATURE</a></li>
-                <li class="tab col s3"><a href="#test4">CHARTS</a></li>
+                <li class="tab col s3"><a href="#test1">Test 1</a></li>
+                <li class="tab col s3"><a href="#test2">Test 2</a></li>
+                <li class="tab col s3"><a href="#test3">Test 3</a></li>
+                <li class="tab col s3"><a href="#test4">Test 4</a></li>
             </ul>
         </div>
         <div id="test1" class="col s12">
-             <!--  chart  -->
-            <div id="chart"></div>
+            
         </div>
         <div id="test2" class="col s12">Test 2</div>
         <div id="test3" class="col s12">Test 3</div>
@@ -33,11 +32,6 @@
 
 
     <style>
-        #chart {
-            max-width: 650px;
-            margin: 35px auto;
-        }
-
         .clock {
             /* position: absolute; */
             /* right: 6%; */
@@ -48,32 +42,9 @@
             letter-spacing: 2px;
         }
     </style>
+   
     <script>
-        $(document).ready(function(){
-            //vars
-            var moisData = 0;
-
-            // chart
-            var options = {
-                chart: {
-                    type: 'line'
-                },
-                series: [{
-                    name: 'Humidity',
-                    data: [30,40,45,50,49,60]
-                }],
-                xaxis: {
-                    // categories: [1991, 1992, 1993, 1994, 1995, 1996],
-                    categories: [],
-                    // labels: {
-                    //     show: false
-                    // }
-                }
-            }
-
-            var chart = new ApexCharts(document.querySelector("#chart"), options);
-
-            chart.render();
+         $(document).ready(function(){
 
             // clock
             function showTime(){
@@ -105,10 +76,11 @@
             }
 
             showTime();
+
             // tabs
             $('.tabs').tabs();
 
-            var dataArray = [];
+
             function pollData() {
                 $.ajax({
                     url:'/poll-chart-data',
@@ -116,29 +88,24 @@
                     // dataType : "json",
                     success:function(result){
                         var data = result;
-                        console.log(data['results']);
-                        for (var key in data['results']) {
-                            moisData = data['results'][key]['mois'];
-                            dataArray.push(moisData);
+                        for (var key in data) {
+                            humiData = data['results'][0]['mois'];
                         } 
-                        console.log(dataArray);
-                        chart.updateSeries([{
-                            data: dataArray
-                        }])
-                       
                         console.log("polling ...");
                     },
                     error:function(err){
                         console.log(err);
                     }
                 });
-                dataArray = []
+
             }
 
             // pollData();
             setInterval(function(){ pollData(); }, 3000);
 
+         
         });
     </script>
+
 </body>
 </html>

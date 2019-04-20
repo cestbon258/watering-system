@@ -26,11 +26,24 @@ app.get('/', function (req, res) {
 
 // monitoring center
 app.get('/user-center', function (req, res, next) {
-	connection.query('SELECT * FROM users LIMIT 1', function (error, results, fields) {
+	connection.query('SELECT * FROM data;', function (error, results, fields) {
 		// if (error) throw error;
-		// console.log('The solution is: ', results[0].password);
+		// console.log('The solution is: ', results);
 		res.render('pages/index', {results: results});
 	});
+})
+
+app.get('/poll-chart-data', function (req, res, next) {
+	try {
+		connection.query('SELECT mois, created_at FROM data WHERE mois IS NOT NULL LIMIT 5 ', function (error, results, fields) {
+			// if (error) throw error;
+			// console.log('The solution is: ', results);
+			res.send({ success: true,  results: results});
+		});
+	} catch(err) {
+		console.log(err);
+	}
+	
 })
 
 // introduction to the system
