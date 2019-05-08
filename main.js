@@ -41,7 +41,7 @@ app.get('/user-center', function (req, res, next) {
 
 app.get('/poll-moisture-data', function (req, res, next) {
 	try {
-		connection.query('SELECT mois, created_at FROM data WHERE mois IS NOT NULL LIMIT 1 ', function (error, results, fields) {
+		connection.query('SELECT mois, created_at FROM data WHERE mois IS NOT NULL ORDER BY created_at DESC LIMIT 1 ', function (error, results, fields) {
 			// if (error) throw error;
 			// console.log('The solution is: ', results);
 			res.send({ success: true,  results: results});
@@ -54,7 +54,7 @@ app.get('/poll-moisture-data', function (req, res, next) {
 
 app.get('/poll-humidity-data', function (req, res, next) {
 	try {
-		connection.query('SELECT humi, created_at FROM data WHERE humi IS NOT NULL LIMIT 1 ', function (error, results, fields) {
+		connection.query('SELECT humi, created_at FROM data WHERE humi IS NOT NULL ORDER BY created_at DESC LIMIT 1 ', function (error, results, fields) {
 			// if (error) throw error;
 			// console.log('The solution is: ', results);
 			res.send({ success: true,  results: results});
@@ -67,7 +67,7 @@ app.get('/poll-humidity-data', function (req, res, next) {
 
 app.get('/poll-temperature-data', function (req, res, next) {
 	try {
-		connection.query('SELECT temp, created_at FROM data WHERE temp IS NOT NULL LIMIT 1 ', function (error, results, fields) {
+		connection.query('SELECT temp, created_at FROM data WHERE temp IS NOT NULL ORDER BY created_at DESC LIMIT 1 ', function (error, results, fields) {
 			// if (error) throw error;
 			// console.log('The solution is: ', results);
 			res.send({ success: true,  results: results});
