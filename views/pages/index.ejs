@@ -54,8 +54,6 @@
     </style>
     <script>
         $(document).ready(function(){
-            //vars
-            var moisData = 0;
 
             // tabs
             $('.tabs').tabs();
@@ -73,14 +71,22 @@
                     name: 'Moisture',
                     data: [0]
                 }],
+
                 xaxis: {
                     labels: {
-                        show: false,
-                    }
-                    // categories: [],
+                        show: false
+                    },
+                    // // categories: ["sd"],
                     // labels: {
                     //     formatter: function (value, timestamp) {
-                    //         return new Date().getSeconds(); // The formatter function overrides format property
+
+                    //         var m = new Date().getMinutes();
+                    //         var s = new Date().getSeconds();
+
+                    //         m = (m < 10) ? "0" + m : m;
+                    //         s = (s < 10) ? "0" + s : s;
+                    //         var time = m + ":" + s;
+                    //         return time; // The formatter function overrides format property
                     //     },
                     // }
                 },
@@ -169,18 +175,18 @@
                         }
                         var data = result;
                         console.log(data['results']);
-                        for (var key in data['results']) {
-                            moisData = data['results'][0]['mois'];
+                        for (var i = data['results'].length - 1; i > 0; i--) {
+                            moisData = data['results'][i]['mois'];
                             moisArray.push(moisData);
                         } 
-                        console.log(moisArray);
-                        // chart.updateSeries([{
-                        //     data: moisArray
-                        // }])
-                        chart.appendData([{
+                        chart.updateSeries([{
                             data: moisArray
                         }])
-                        console.log("polling ...");
+                        // chart.appendData([{
+                        //     data: moisArray
+                        // }])
+
+                        console.log("moisture polling ...");
                     },
                     error:function(err){
                         console.log(err);
@@ -204,13 +210,15 @@
                         }
                         var data = result;
                         console.log(data['results']);
-                        for (var key in data['results']) {
-                            humiData = data['results'][0]['humi'];
+                        for (var i = data['results'].length - 1; i > 0; i--) { 
+                            humiData = data['results'][i]['humi'];
                             humiArray.push(humiData);
                         } 
-                        console.log(humiArray);
      
-                        humidityChart.appendData([{
+                        // .appendData([{
+                        //     data: humiArray
+                        // }])
+                        humidityChart.updateSeries([{
                             data: humiArray
                         }])
 
@@ -238,15 +246,23 @@
                         }
                         var data = result;
                         console.log(data['results']);
-                        for (var key in data['results']) {
-                            tempData = data['results'][0]['temp'];
+
+                        for (var i = data['results'].length - 1; i > 0; i--) { 
+                            tempData = data['results'][i]['temp'];
                             tempArray.push(tempData);
-                        } 
-                        console.log(tempArray);
+                        }
+                        // for (var key in data['results']) {
+                        //     tempData = data['results'][key]['temp'];
+                        //     tempArray.push(tempData);
+                        // } 
      
-                        temperatureChart.appendData([{
-                            data: tempArray
+                        // temperatureChart.appendData([{
+                        //     data: tempArray
+                        // }])
+                        temperatureChart.updateSeries([{
+                            data: tempArray,
                         }])
+
                         console.log("temperature polling ...");
                     },
                     error:function(err){
