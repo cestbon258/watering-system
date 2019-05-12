@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
+
 <% include ../partials/head %>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-
-<body>
+<body class="grey lighten-3">
     <% include ../partials/nav %>
     <div class="container">
-
 
         <div class="card">
             <div class="card-image waves-effect waves-block waves-light">
                 <!-- <img class="activator" src="images/office.jpg"> -->
             </div>
             <div class="card-content">
-                <span class="card-title activator grey-text text-darken-4">Water switcher<i class="material-icons right">more_vert</i></span>
+                <span class="card-title activator grey-text text-darken-4">Water switch<i class="material-icons right">more_vert</i></span>
                 <% if(results[0].status ==0) { %>
                     <p>The water pump is currently closed, would you like to turn it ON</p>
                 <% } else { %>
@@ -41,7 +38,6 @@
             </div>
       </div>
         <div style="height: 100px;"></div>
-       
         <div style="height: 100px;"></div>
     </div>
 
