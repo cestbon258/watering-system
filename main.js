@@ -101,7 +101,16 @@ app.get('/help', function (req, res, next) {
 })
 
 app.get('/store', function (req, res, next) {
-	res.render('pages/shop', {is_login: req.session.email});
+	try {
+		connection.query('SELECT * FROM product LIMIT 20 ', function (error, results, fields) {
+			// if (error) throw error;
+			console.log('The solution is: ', results);
+			res.render('pages/shop', {is_login: req.session.email, results: results});
+		});
+	} catch(err) {
+		console.log(err);
+	}
+	
 })
 
 app.get('/login', function (req, res, next) {
