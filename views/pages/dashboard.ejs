@@ -1,0 +1,17 @@
+<% include ../partials/head %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<body class="grey lighten-3">
+    <% include ../partials/nav %>
+    
+    <div class="container">
+        <% include ../partials/dashboard_sidebar %>
+        <p>Welcome! <%= is_login %></p>
+    </div>
+
+    <div style="height: 200px;"></div>
+    <div style="height: 200px;"></div>
+    <% include ../partials/footer %>
+</body>
+</html>

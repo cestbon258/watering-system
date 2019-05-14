@@ -1,0 +1,54 @@
+<% include ../partials/head %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<body class="grey lighten-3">
+    <% include ../partials/nav %>
+    <div class="container">
+        <% include ../partials/dashboard_sidebar %>
+        
+        <% if (results=="") { %>
+            <div class="collection">
+                    <a href="/store" class="collection-item">Opps! your shipping cart is empty, go to add something</a>
+            </div>
+        <% }else{ %>
+            <div class="card">
+                <form method="POST" action="/check-out">
+                    <div class="card-content">
+                        <span class="card-title activator grey-text text-darken-4">Shopping Cart</span>
+                        <table class="responsive-table">
+                            <thead>
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Item Price</th>
+                                    <th>Quantity</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                
+                            <tbody>
+                                <% for(var i=0; i<results.length; i++) { %>
+                                    <tr>
+                                        <td><%= results[i].name %></td>
+                                        <td><%= results[i].price %></td>
+                                        <td><input name="p_qty" value="<%= results[i].qty %>"></td>
+                                        <td><a class="waves-effect waves-light red btn-small" href="/remove-item?i=<%= results[i].id %>">Delete</a></td>
+                                    </tr>
+                                    <input name="cart_id" value="<%= results[i].id %>" hidden>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn waves-effect waves-light" type="submit">Pay Now</button>
+                    </div>
+                </form>
+            </div>
+        <% } %>
+    </div>
+
+    <div style="height: 200px;"></div>
+    <div style="height: 200px;"></div>
+    <% include ../partials/footer %>
+</body>
+</html>

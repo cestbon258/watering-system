@@ -12,7 +12,7 @@ app.use(session({
 	secret: 'a8ab97d5-bc71-4102-b33a-3e84c86e1502',
 	resave: true,
 	saveUninitialized: true,
-	cookie: { maxAge: 60000 }
+	cookie: { maxAge: 600000 }
 }))
 app.use(bodyParser.urlencoded({ extended: false }));  
 app.use(bodyParser.json());
@@ -131,7 +131,8 @@ app.post('/user-login', function (req, res, next) {
 				connection.query('SELECT * FROM users WHERE email = ? AND password = ? LIMIT 1', [req.body.email, req.body.password], function (error, results, fields) {
 					if (results[0]){ 
 						req.session.email = results[0]["email"];
-						console.log('The solution is: ', results);
+						req.session.user_id = results[0]["id"];
+						console.log('the session: ', req.session.user_id);
 						res.redirect('/');
 					} else {
 						res.render('pages/login');
@@ -239,6 +240,99 @@ app.post('/control', function (req, res, next) {
 		});
 	} catch(err) {
 		console.log(err);
+	}
+})
+
+app.get('/cart', function (req, res, next) {
+	if (req.session.email) {
+		connection.query('SELECT cart.*, product.name, product.price FROM cart INNER JOIN product ON product.id = cart.product_id WHERE cart.user_id = ? AND cart.status = 0', [req.session.user_id], function (error, results, fields) {
+			if (error) throw error;
+			console.log('The solution is: ', results);
+			res.render('pages/cart', {is_login: req.session.email, results: results});
+		});
+	} else {
+		res.redirect('login');
+	}
+})
+
+app.post('/add-to-cart', function (req, res, next) {
+
+	if (req.session.email) {
+		try {
+			connection.query('SELECT id FROM users WHERE email = ?', [req.session.email], function (error, results, fields) {
+				if (error) throw error;
+				cur_user = results[0]['id'];
+				p_id = req.body.p_id;
+
+				connection.query('INSERT INTO cart (user_id, product_id) VALUES (?, ?)', [cur_user, p_id], function (error, results, fields) {
+					if (error) throw error;
+					console.log('added to cart');
+				});
+				
+			});
+		} catch(err) {
+			console.log(err);
+		}
+	} else {
+		console.log("nothing add");
+		res.send({"result" : "404"});
+	}
+})
+
+app.post('/check-out', function (req, res, next) {
+	qty_array = req.body.p_qty;
+	id_array = req.body.cart_id;
+	if (req.session.email) {
+		try {
+			for (i = 0; i < qty_array.length; i++) { 
+				connection.query('UPDATE cart SET qty = ?, status = 1 WHERE id =? AND status = 0', [qty_array[i], id_array[i]], function (error, results, fields) {
+					if (error) throw error;
+					res.redirect('back');
+					// res.render('pages/login', {is_login: req.session.email});
+				});
+			}
+			
+
+			// connection.query('UPDATE cart SET status = 1 WHERE user_id =? AND status = 0', [req.session.user_id], function (error, results, fields) {
+			// 	if (error) throw error;
+			// });
+		} catch(err) {
+			console.log(err);
+		}
+	} else {
+		res.redirect('login');
+	}
+})
+
+app.get('/remove-item', function (req, res, next) {
+	cart_id = req.query.i;
+	if (req.session.email) {
+		connection.query('DELETE FROM cart WHERE user_id = ? AND id = ?', [req.session.user_id, cart_id], function (error, results, fields) {
+			if (error) throw error;
+			res.redirect('back');
+		});
+	} else {
+		res.redirect('login');
+	}
+})
+
+app.get('/dashboard', function (req, res, next) {
+	if (req.session.email) {
+		res.render('pages/dashboard', {is_login: req.session.email});
+	} else {
+		res.redirect('login');
+	}
+})
+
+app.get('/orders', function (req, res, next) {
+	if (req.session.email) {
+		connection.query('SELECT cart.*, product.name, product.price FROM cart INNER JOIN product ON product.id = cart.product_id WHERE cart.user_id = ? AND cart.status = ?', [req.session.user_id, 1], function (error, results, fields) {
+			if (error) throw error;
+			console.log(results);
+			res.render('pages/order', {is_login: req.session.email, results: results});
+		});
+	} else {
+		res.redirect('login');
 	}
 })
 
