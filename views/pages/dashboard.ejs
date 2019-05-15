@@ -7,7 +7,14 @@
     
     <div class="container">
         <% include ../partials/dashboard_sidebar %>
-        <p>Welcome! <%= is_login %></p>
+        <ul class="collapsible">
+            <li>
+                <div class="collapsible-header">
+                <i class="material-icons">live_help</i>
+                <span>Welcome! <b><%= is_login %></b></span>
+                <span class="new badge"></span></div>
+            </li>
+        </ul>
     </div>
 
     <div style="height: 200px;"></div>
