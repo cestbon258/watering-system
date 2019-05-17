@@ -1,0 +1,40 @@
+<% include ../partials/head %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<body class="grey lighten-3">
+    <% include ../partials/nav %>
+    <div class="container">
+        <% include ../partials/dashboard_sidebar %>
+        
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title activator grey-text text-darken-4">About <span class="orange-text"><%= results[0].name %></span></span>
+                <table class="responsive-table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Item Price</th>
+                            <th>Description</th>
+                            <th>Produced Date</th>
+                        </tr>
+                    </thead>
+        
+                    <tbody>
+                        <tr>
+                            <td><%= results[0].name %></td>
+                            <td><%= results[0].price %></td>
+                            <td><%= results[0].description %></td>
+                            <td><%= results[0].updated_at %></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 200px;"></div>
+    <div style="height: 200px;"></div>
+    <% include ../partials/footer %>
+</body>
+</html>

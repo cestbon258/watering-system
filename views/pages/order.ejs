@@ -21,6 +21,7 @@
                                 <th>Item Name</th>
                                 <th>Item Price</th>
                                 <th>Quantity</th>
+                                <th>Order Time</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -31,7 +32,8 @@
                                     <td><%= results[i].name %></td>
                                     <td><%= results[i].price %></td>
                                     <td><%= results[i].qty %></td>
-                                    <td><a class="waves-effect waves-light red btn-small" href="#">View</a></td>
+                                    <td><%= results[i].created_at %></td>
+                                    <td><a class="waves-effect waves-light red btn-small" href="/view-detail?p_id=<%= results[i].product_id %>">Info</a></td>
                                 </tr>
                             <% } %>
                         </tbody>

@@ -336,5 +336,18 @@ app.get('/orders', function (req, res, next) {
 	}
 })
 
+app.get('/view-detail', function (req, res, next) {
+	if (req.session.email) {
+		p_id = req.query.p_id;
+		connection.query('SELECT * FROM product WHERE id = ? LIMIT 1', [p_id], function (error, results, fields) {
+			if (error) throw error;
+			console.log(results);
+			res.render('pages/detail', {is_login: req.session.email, results: results});
+		});
+	} else {
+		res.redirect('login');
+	}
+})
+
 // connection.end();
 app.listen(port, () => console.log(`App listening on port: ${port}!`));
