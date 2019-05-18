@@ -7,6 +7,24 @@ const bodyParser = require('body-parser');
 
 const session = require('express-session')
 
+// upload files using formidable
+var formidable = require('formidable');
+var fs = require('fs');
+
+// upload files using multer
+var multer  = require('multer')
+
+const storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+	  	cb(null, './public/shop_img/')
+	},
+	filename: function (req, file, cb) {
+	  	cb(null, file.originalname)
+	}
+})
+const upload = multer({storage: storage})
+
+// var upload = multer({ dest: './public/shop_img/' })
 
 app.use(session({
 	secret: 'a8ab97d5-bc71-4102-b33a-3e84c86e1502',
@@ -348,6 +366,119 @@ app.get('/view-detail', function (req, res, next) {
 		res.redirect('login');
 	}
 })
+
+app.post('/save', function (req, res, next) {
+	// upload.array('filetoupload', 1);
+	upload.array('filetoupload', 1)(req,res,function(err) {
+		console.log(req.body);
+		console.log(req.files);
+		if(err) {
+			return res.end("Error uploading file.");
+		}
+
+		if (req.files != '') {
+			img = req.files[0].filename;
+		}else{
+			img = req.body.image;
+		}
+
+		p_id = req.body.p_id;
+		p_name = req.body.name;
+		qty = req.body.qty;
+		price = req.body.price;
+		description = req.body.description;
+		status = req.body.status == "on" ? 1 : 0;
+
+		try {
+			connection.query('UPDATE product SET name = ? , qty = ?, price = ?, description = ?, img = ?, status = ? WHERE id = ?', [p_name, qty, price, description, img, status, p_id], function (error, results, fields) {
+				if (error) throw error;
+				res.redirect('back');
+			});
+		} catch(err) {
+			console.log(err);
+		}
+	});
+})
+
+app.get('/product-detail', function (req, res, next) {
+	console.log(req.query.p_id);
+	try {
+		connection.query('SELECT * FROM product WHERE id = ? LIMIT 1', [req.query.p_id], function (error, results, fields) {
+			if (error) throw error;
+			console.log(results);
+			res.render('pages/product-detail', {is_login: req.session.email, results: results});
+		});
+	} catch(err) {
+		console.log(err);
+	}
+})
+
+app.get('/create-product', function (req, res, next) {
+	res.render('pages/create-product');
+})
+
+// upload files using formidable
+// app.post('/fileupload', function (req, res, next) {
+// 	var form = new formidable.IncomingForm();
+
+//     form.parse(req, function (err, fields, files) {
+// 		var oldpath = files.filetoupload.path;
+
+// 		var newpath = './public/shop_img/' + files.filetoupload.name;
+		
+//       	fs.rename(oldpath, newpath, function (err) {
+// 			if (err) throw err;
+// 			res.write('File uploaded and moved!');
+// 			res.end();
+// 		});
+//     });
+// })
+
+// upload files using multer
+app.post('/fileupload', function (req, res, next) {
+	upload.array('filetoupload', 1)(req,res,function(err) {
+		console.log(req.body);
+		console.log('==========');
+		if(err) {
+			return res.end("Error uploading file.");
+		}
+		if (req.files != '') {
+			img = req.files[0].filename;
+		}else{
+			img = null;
+		}
+
+		p_name = req.body.name;
+		qty = req.body.qty;
+		price = req.body.price;
+		description = req.body.description;
+		status = req.body.status == "on" ? 1 : 0;
+
+		try {
+			connection.query('INSERT INTO product (name, qty, price, description, img, status) VALUES (?, ?, ?, ?, ?, ?)', [p_name, qty, price, description, img, status], function (error, results, fields) {
+				if (error) throw error;
+				res.redirect('all-products');
+			});
+		} catch(err) {
+			console.log(err);
+		}
+	});
+
+
+})
+
+app.get('/all-products', function (req, res, next) {
+	try {
+		connection.query('SELECT * FROM product', function (error, results, fields) {
+			if (error) throw error;
+			// console.log(results);
+			res.render('pages/all-products', {is_login: req.session.email, results: results});
+		});
+	} catch(err) {
+		console.log(err);
+	}
+})
+
 
 // connection.end();
 app.listen(port, () => console.log(`App listening on port: ${port}!`));
