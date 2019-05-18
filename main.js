@@ -490,6 +490,24 @@ app.get('/all-products', function (req, res, next) {
 	}
 })
 
+app.get('/delete-product', function (req, res, next) {
+	if (req.session.user_role == 1){
+		try {
+			p_id = req.query.p_id;
+			console.log(p_id);
+			connection.query('DELETE FROM product WHERE id = ?', [p_id], function (error, results, fields) {
+				if (error) throw error;
+				console.log(results.affectedRows);
+				res.redirect('back');
+			});
+		} catch(err) {
+			console.log(err);
+		}
+	} else {
+		res.redirect('login');
+	}
+})
+
 
 // connection.end();
 app.listen(port, () => console.log(`App listening on port: ${port}!`));

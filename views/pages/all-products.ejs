@@ -32,7 +32,7 @@
                                     No
                                 <% } %>
                             </td>
-                            <td><a class="waves-effect waves-light btn-small" href="/product-detail?p_id=<%= results[i].id %>"><i class="material-icons">edit</i></a></td>
+                            <td><a class="waves-effect waves-light btn-small" href="/product-detail?p_id=<%= results[i].id %>"><i class="material-icons">edit</i></a><div class="divider"></div><a class="waves-effect waves-light red btn-small" href="/delete-product?p_id=<%= results[i].id %>"><i class="material-icons">delete_forever</i></a></td>
                         </tr>
                 <% } %>
             </tbody>
