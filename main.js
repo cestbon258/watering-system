@@ -150,7 +150,8 @@ app.post('/user-login', function (req, res, next) {
 					if (results[0]){ 
 						req.session.email = results[0]["email"];
 						req.session.user_id = results[0]["id"];
-						console.log('the session: ', req.session.user_id);
+						req.session.user_role = results[0]["role"];
+						console.log('the session: ', req.session.user_role);
 						res.redirect('/');
 					} else {
 						res.render('pages/login');
@@ -355,7 +356,7 @@ app.get('/orders', function (req, res, next) {
 })
 
 app.get('/view-detail', function (req, res, next) {
-	if (req.session.email) {
+	if (req.session.user_role == 1){
 		p_id = req.query.p_id;
 		connection.query('SELECT * FROM product WHERE id = ? LIMIT 1', [p_id], function (error, results, fields) {
 			if (error) throw error;
@@ -401,20 +402,26 @@ app.post('/save', function (req, res, next) {
 })
 
 app.get('/product-detail', function (req, res, next) {
-	console.log(req.query.p_id);
-	try {
-		connection.query('SELECT * FROM product WHERE id = ? LIMIT 1', [req.query.p_id], function (error, results, fields) {
-			if (error) throw error;
-			console.log(results);
-			res.render('pages/product-detail', {is_login: req.session.email, results: results});
-		});
-	} catch(err) {
-		console.log(err);
+	if (req.session.user_role == 1){
+		console.log(req.query.p_id);
+		try {
+			connection.query('SELECT * FROM product WHERE id = ? LIMIT 1', [req.query.p_id], function (error, results, fields) {
+				if (error) throw error;
+				console.log(results);
+				res.render('pages/product-detail', {is_login: req.session.email, results: results});
+			});
+		} catch(err) {
+			console.log(err);
+		}
 	}
 })
 
 app.get('/create-product', function (req, res, next) {
-	res.render('pages/create-product');
+	if (req.session.user_role == 1){
+		res.render('pages/create-product');
+	} else {
+		res.redirect('login');
+	}
 })
 
 // upload files using formidable
@@ -468,14 +475,18 @@ app.post('/fileupload', function (req, res, next) {
 })
 
 app.get('/all-products', function (req, res, next) {
-	try {
-		connection.query('SELECT * FROM product', function (error, results, fields) {
-			if (error) throw error;
-			// console.log(results);
-			res.render('pages/all-products', {is_login: req.session.email, results: results});
-		});
-	} catch(err) {
-		console.log(err);
+	if (req.session.user_role == 1){
+		try {
+			connection.query('SELECT * FROM product', function (error, results, fields) {
+				if (error) throw error;
+				// console.log(results);
+				res.render('pages/all-products', {is_login: req.session.email, results: results});
+			});
+		} catch(err) {
+			console.log(err);
+		}
+	} else {
+		res.redirect('login');
 	}
 })
 
