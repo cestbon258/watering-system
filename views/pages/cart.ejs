@@ -31,10 +31,10 @@
                                     <tr>
                                         <td><%= results[i].name %></td>
                                         <td><%= results[i].price %></td>
-                                        <td><input name="p_qty" value="<%= results[i].qty %>"></td>
+                                        <td><input name="p_qty" type="number" min="1" id="qty<%= results[i].id %>" onchange="updateQty('<%= results[i].id %>')" value="<%= results[i].qty %>"></td>
                                         <td><a class="waves-effect waves-light red btn-small" href="/remove-item?i=<%= results[i].id %>">Delete</a></td>
                                     </tr>
-                                    <input name="cart_id" value="<%= results[i].id %>" hidden>
+                                    <input name="cart_id" id="cart_id" value="<%= results[i].id %>" hidden>
                                 <% } %>
                             </tbody>
                         </table>
@@ -46,9 +46,30 @@
             </div>
         <% } %>
     </div>
-
+    <p id="demo"></p>
     <div style="height: 200px;"></div>
     <div style="height: 200px;"></div>
     <% include ../partials/footer %>
+
+    <script>
+        function updateQty(cart_id) {
+            var p_qty = 'qty' + cart_id;
+            var x =  document.getElementById(p_qty).value;
+
+            $.ajax({
+                url:'/update-cart-qty',
+                type:'post',
+                // dataType : "json",
+                data: {qty: x, cart_id: cart_id},
+                success:function(result){
+                    var data = result;
+                    console.log(data);
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+        }
+    </script>
 </body>
 </html>

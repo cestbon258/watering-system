@@ -299,17 +299,19 @@ app.post('/add-to-cart', function (req, res, next) {
 })
 
 app.post('/check-out', function (req, res, next) {
-	qty_array = req.body.p_qty;
-	id_array = req.body.cart_id;
+	console.log('----------------');
+	console.log(req.body.p_qty);
+	console.log('--------cart id----');
+	console.log(req.body.cart_id);
+	qty = req.body.p_qty;
+	cart_id = req.body.cart_id;
 	if (req.session.email) {
 		try {
-			for (i = 0; i < qty_array.length; i++) { 
-				connection.query('UPDATE cart SET qty = ?, status = 1 WHERE id =? AND status = 0', [qty_array[i], id_array[i]], function (error, results, fields) {
-					if (error) throw error;
-					res.redirect('back');
-					// res.render('pages/login', {is_login: req.session.email});
-				});
-			}
+			connection.query('UPDATE cart SET status = 1 WHERE user_id = ? AND status = 0', [req.session.user_id], function (error, results, fields) {
+				if (error) throw error;
+				res.redirect('back');
+				// res.render('pages/login', {is_login: req.session.email});
+			});
 			
 
 			// connection.query('UPDATE cart SET status = 1 WHERE user_id =? AND status = 0', [req.session.user_id], function (error, results, fields) {
@@ -322,6 +324,26 @@ app.post('/check-out', function (req, res, next) {
 		res.redirect('login');
 	}
 })
+
+app.post('/update-cart-qty', function (req, res, next) {
+	qty = req.body.qty;
+	cart_id = req.body.cart_id;
+	console.log(req.body);
+	if (req.session.email) {
+		try {
+			connection.query('UPDATE cart SET qty = ? WHERE id = ? AND status = 0', [qty, cart_id], function (error, results, fields) {
+				// if (error) throw error;
+				// console.log('The solution is: ', results);
+				res.send({ success: true,  results: results});
+			});
+		} catch(err) {
+			console.log(err);
+		}
+	} else {
+		res.redirect('login');
+	}
+})
+
 
 app.get('/remove-item', function (req, res, next) {
 	cart_id = req.query.i;
@@ -356,7 +378,7 @@ app.get('/orders', function (req, res, next) {
 })
 
 app.get('/view-detail', function (req, res, next) {
-	if (req.session.user_role == 1){
+	if (req.session.email) {
 		p_id = req.query.p_id;
 		connection.query('SELECT * FROM product WHERE id = ? LIMIT 1', [p_id], function (error, results, fields) {
 			if (error) throw error;
