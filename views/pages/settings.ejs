@@ -23,7 +23,7 @@
                     <div class="switch">
                         <label>
                         Off
-                        <input type="checkbox" name="water" <%- results[0].status ==0 ?'' : 'checked' %>>
+                        <input type="checkbox"  name="water" <%- results[0].status ==0 ?'' : 'checked' %>>
                         <span class="lever"></span>
                         On
                         </label>
@@ -34,8 +34,11 @@
                 </form>
             </div>
             <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4">Water switcher<i class="material-icons right">close</i></span>
-                <p>It is used to turn ON / OFF the water pump.</p>
+                <span class="card-title grey-text text-darken-4">Scan to control water pump<i class="material-icons right">close</i></span>
+                <p>
+                    <div id="qrcode"></div> 
+                    <input hidden id="status" value="<%= results[0].status %>">
+                </p>
             </div>
         </div>
         <div style="height: 100px;"></div>
@@ -52,7 +55,17 @@
    
     <script>
         $(document).ready(function(){
-
+            var status = $('#status').val();
+            console.log(status);
+            var base_url = window.location.origin;
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: base_url +"/control-switch?water="+status,
+                width: 108,
+                height: 108,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
          
         });
     </script>

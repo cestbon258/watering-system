@@ -262,6 +262,21 @@ app.post('/control', function (req, res, next) {
 	}
 })
 
+
+app.get('/control-switch', function (req, res, next) {
+	var status = req.query.water;
+	try {
+		connection.query('UPDATE switch SET status = ? WHERE id=1', [status], function (error, results, fields) {
+			// if (error) throw error;
+			console.log('The solution is: ', results);
+			res.redirect('settings');
+			
+		});
+	} catch(err) {
+		console.log(err);
+	}
+})
+
 app.get('/cart', function (req, res, next) {
 	if (req.session.email) {
 		connection.query('SELECT cart.*, product.name, product.price FROM cart INNER JOIN product ON product.id = cart.product_id WHERE cart.user_id = ? AND cart.status = 0', [req.session.user_id], function (error, results, fields) {
@@ -521,6 +536,22 @@ app.get('/delete-product', function (req, res, next) {
 				if (error) throw error;
 				console.log(results.affectedRows);
 				res.redirect('back');
+			});
+		} catch(err) {
+			console.log(err);
+		}
+	} else {
+		res.redirect('login');
+	}
+})
+
+app.get('/data', function (req, res, next) {
+	if (req.session.user_role == 0){
+		try {
+			connection.query('SELECT * FROM data ORDER BY created_at LIMIT 5000', function (error, results, fields) {
+				if (error) throw error;
+				console.log(results);
+				res.render('pages/data', {is_login: req.session.email, results: results});
 			});
 		} catch(err) {
 			console.log(err);
